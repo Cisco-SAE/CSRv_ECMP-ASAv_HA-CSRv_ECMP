@@ -1,45 +1,77 @@
-sae-catalog SAE_CATALOG {
-        vnfd-deployment VD_CSR_PP {
-                vnfd               V_CSR;
-                vdu                VDU_CSR_SRIOV;
-                var METRIC_OCC_FALSE {
-                        val 3;
-                }
-                var METRIC_OCC_TRUE {
-                        val 3;
-                }
-                var METRIC_VALUE {
-                        val 50;
-                }
-                var POLL_FREQUENCY {
-                        val 15;
-                }
-                bootup-time        600;
-                recovery-wait-time 90;
-                vnf-authgroup      CSR_AUTHGROUP;
-                day0 iosxe_config.txt {
-                        url http://9.9.9.202:8080/day0/VD_CSR_PP.txt;
-                        var EPASSWORD {
-                                val "Cisco123#";
-                        }
-                        var LICENSE_TOKEN {
-                                val MzUxZDQ3MDMtMjA2MS00NTFmLTk2Y2QtMmM2NzkxNjIyYmZlLTE1NTAwMDI2%0AMzY2MDl8bytyYjkva1kzZmdWdUlkbHFaOFZ2MUxQZVh5bGM5cjhsRVpIRjk0%0AYnBHWT0%3D%0A;
-                        }
-                        var PASSWORD {
-                                val "Cisco123#";
-                        }
-                        var SW_AS_NUMBER {
-                                val 100;
-                        }
-                        var TNAME {
-                                val 1;
-                        }
-                        var NAME_SERVER {
-                                val $NAMESERVER1;
-                        }
-                        var DOMAIN_NAME {
-                                val cisco.com;
-                        }
-                }
-        }
-}
+hostname $HOSTNAME
+username admin privilege 15 password $PASSWORD
+ip domain-name $DOMAIN_NAME
+crypto key generate rsa modulus 1024
+!
+enable password $PASSWORD
+ip vrf mgmt
+!
+interface GigabitEthernet1
+description VRF_MANAGEMENT_INTERFACE
+ip vrf forwarding mgmt
+ip address $NICID_0_IP_ADDRESS $NICID_0_CIDR_ADDRESS
+negotiation auto
+no shut
+!
+interface GigabitEthernet2
+ip address $NICID_1_IP_ADDRESS $NICID_1_CIDR_ADDRESS
+mtu 1500
+no shut
+!
+interface GigabitEthernet3
+ip address $NICID_2_IP_ADDRESS $NICID_2_CIDR_ADDRESS
+mtu 1500
+no shut
+!
+interface GigabitEthernet4
+mtu 1500
+no shut
+!
+line con 0
+exec-timeout 30 0
+!
+line vty 0 15
+privilege level 15
+transport input ssh
+login local
+!
+ip ssh version 2
+ip route vrf mgmt 0.0.0.0 0.0.0.0 $NICID_0_GATEWAY
+no ip ssh stricthostkeycheck
+!
+router bgp $VD_CSR_PP_ASNUMBER
+ bgp router-id $NICID_0_IP_ADDRESS
+ bgp log-neighbor-changes
+ neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_1 remote-as $VD_CSR_PP_NICID_2_NEIGHBOR_ASNUMBER
+ neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_2 remote-as $VD_CSR_PP_NICID_2_NEIGHBOR_ASNUMBER
+ neighbor $VD_CSR_PP_NICID_1_NEIGHBOR_IP_ADDRESS_1 remote-as $VD_CSR_PP_NICID_1_NEIGHBOR_ASNUMBER
+ address-family ipv4 unicast
+  network $VD_CSR_PP_NICID_2_FROM_SUBNET_IP mask $VD_CSR_PP_NICID_2_FROM_SUBNET_MASK
+  redistribute connected
+  neighbor $VD_CSR_PP_NICID_1_NEIGHBOR_IP_ADDRESS_1 local-as $VD_CSR_PP_NICID_1_NEIGHBOR_REMOTE_LOCAL_AS no-prepend replace-as
+  neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_1 activate
+  neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_1 soft-reconfiguration inbound
+  neighbor $VD_CSR_PP_NICID_1_NEIGHBOR_IP_ADDRESS_1 activate
+  neighbor $VD_CSR_PP_NICID_1_NEIGHBOR_IP_ADDRESS_1 soft-reconfiguration inbound
+  neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_2 activate
+  neighbor $VD_CSR_PP_NICID_2_NEIGHBOR_IP_ADDRESS_2 soft-reconfiguration inbound
+  maximum-paths 2
+ exit-address-family
+ !
+!
+service call-home
+license smart enable
+!
+ip http client source-interface GigabitEthernet1
+!
+ip name-server vrf mgmt $NAME_SERVER1 $NAME_SERVER2
+ip domain name $DOMAIN_NAME
+!
+call-home
+  http-proxy $PROXY_SERVER port $PORT
+!
+do license smart register idtoken $LICENSE_TOKEN
+!
+platform hardware throughput level MB 2500
+!
+write mem
