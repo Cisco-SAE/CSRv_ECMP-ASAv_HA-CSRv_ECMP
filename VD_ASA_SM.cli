@@ -3,7 +3,7 @@ sae-catalog SAE_CATALOG {
         vnfd               V_ASA;
         vdu                VDU_ASA_SRIOV;
         var HOSTNAME {
-            val ASA_SRIOV;
+            val ASA_SEC;
         }
         var METRIC_OCC_FALSE {
             val 20;
@@ -20,11 +20,8 @@ sae-catalog SAE_CATALOG {
         var POLL_FREQUENCY {
             val 15;
         }
-        var VFIREWALL_ENABLESECRET {
-            val "Cisco123#";
-        }
         var VFIREWALL_PASSWORD {
-            val "Cisco123#";
+            val "cisco123";
         }
         var VFIREWALL_USERNAME {
             val admin;
@@ -33,27 +30,12 @@ sae-catalog SAE_CATALOG {
         recovery-wait-time 90;
         vnf-authgroup      ASA_AUTHGROUP;
         day0 day0-config {
-            url http://9.9.9.202:8080/day0/VD_ASA_SM.txt;
-            var LICENSE_TOKEN {
-                val MzUxZDQ3MDMtMjA2MS00NTFmLTk2Y2QtMmM2NzkxNjIyYmZlLTE1NTAwMDI2%0AMzY2MDl8bytyYjkva1kzZmdWdUlkbHFaOFZ2MUxQZVh5bGM5cjhsRVpIRjk0%0AYnBHWT0%3D%0A;
-            }
-            var NSO_LOGIN_PASSWORD {
-                val "Cisco123#";
-            }
-            var NSO_LOGIN_USERNAME {
-                val saesol;
-            }
-            var SP_ENABLESECRET_VFW {
-                val "Cisco123#";
-            }
-            var SP_HOSTNAME_VFW {
-                val VD_ASA_SM;
-            }
+            url http://X.X.X.X:8080/day0/VD_ASA_SM.txt;
         }
         vnf-type           asav;
         asav-ha-settings {
         ha-role                   standby;
-        failover-connection-point NIC1;
+        failover-connection-point  NIC1;
         }
     }
 }
