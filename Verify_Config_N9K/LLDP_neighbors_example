@@ -7,12 +7,12 @@ Capability codes:
 Device ID            Local Intf      Hold-time  Capability  Port ID 
 R7-TOR-9-107.cisco.com
                      mgmt0           120        B           Gi1/0/38     
-csp-9-73             Eth1/1          120        S           a697.4b0d.a2c7
-csp-9-73             Eth1/2          120        S           8641.c6c1.cbb9
-csp-9-74             Eth1/3          120        S           66d7.1d47.f627
-csp-9-74             Eth1/4          120        S           4e75.d0b6.2f63
-csp-9-73             Eth1/5          120        S           90e2.bafb.9d30
-csp-9-74             Eth1/7          120        S           90e2.bafb.9360
+csp-9-73             Eth1/1          120        S           XXXX.XXXX.XXXX
+csp-9-73             Eth1/2          120        S           XXXX.XXXX.XXXX
+csp-9-74             Eth1/3          120        S           XXXX.XXXX.XXXX
+csp-9-74             Eth1/4          120        S           XXXX.XXXX.XXXX
+csp-9-73             Eth1/5          120        S           XXXX.XXXX.XXXX
+csp-9-74             Eth1/7          120        S           XXXX.XXXX.XXXX
 LEAF2-R7             Eth1/47         120        BR          Ethernet1/47 
 LEAF2-R7             Eth1/48         120        BR          Ethernet1/48 
 
