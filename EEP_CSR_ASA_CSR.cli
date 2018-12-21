@@ -1,18 +1,18 @@
 sae-site SANJOSE {
         external-end-point CONSUMER20 {
         traffic-hand-off-method vlan-only;
-        vlan-number             20;
-        branch-bgp-as-number    20;
-        branch-remote-as-number 28;
-        endpoint-ipaddress      20.20.20.1;
-        endpoint-netmask        255.255.255.0;
+        vlan-number             X;
+        branch-bgp-as-number    X;
+        branch-remote-as-number X;
+        endpoint-ipaddress      X.X.X.x;
+        endpoint-netmask        X.X.X.X;
     }
     external-end-point PROVIDER200 {
         traffic-hand-off-method vlan-only;
-        vlan-number             2001;
-        branch-bgp-as-number    200;
-        branch-remote-as-number 209;
-        endpoint-ipaddress      200.200.200.1;
-        endpoint-netmask        255.255.255.0;
+        vlan-number             X;
+        branch-bgp-as-number    X;
+        branch-remote-as-number X;
+        endpoint-ipaddress      X.X.X.X;
+        endpoint-netmask        X.X.X.X;
     }
 }
