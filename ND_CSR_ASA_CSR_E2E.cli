@@ -2,22 +2,22 @@ sae-catalog SAE_CATALOG {
         nsd-deployment ND_CSR_ASA_CSR_E2E {
         nsd                   N_CSR_ASA_CSR_E2E;
         nsd-deployment-flavor HA;
-        vnf-deployment P_ASA1 {
+        vnf-deployment PM_ASA {
             vnfd-deployment VD_ASA_PM;
         }
-                vnf-deployment P_ASA2 {
+                vnf-deployment SM_ASA {
             vnfd-deployment VD_ASA_SM;
         }
-        vnf-deployment P_CSR1 {
+        vnf-deployment P_CSR_C1 {
             vnfd-deployment VD_CSR_PC;
         }
-        vnf-deployment P_CSR2 {
+        vnf-deployment P_CSR_C2 {
             vnfd-deployment VD_CSR_SC;
         }
-                vnf-deployment P_CSR3 {
+                vnf-deployment P_CSR_P1 {
             vnfd-deployment VD_CSR_PP;
         }
-        vnf-deployment P_CSR4 {
+        vnf-deployment P_CSR_P2 {
             vnfd-deployment VD_CSR_SP;
         }
     }
