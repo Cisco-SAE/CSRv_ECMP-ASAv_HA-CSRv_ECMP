@@ -1,7 +1,7 @@
 The file pNIC_Info_Reference in this folder provides a reference table for understanding pNIC information.
 
-Login to CSP and run "show sr-iov" command to see all the PNIC's information.
+Before creating an SAE site, you need to find pNIC information for your CSP devices to understand which interfaces are SR-IOV and which ones are non-SR-IOV. The following procedure shows how to find pNIC information
 
-               A group of interfaces with 4 PNIC's (f0,f1,f2 and f3) with 32 allowed VF's are VIRTIO ports
+Step 1: Log in to your CSP device.
+Step 2: Run the command show sr-iov to view all pNIC information.
 
-               A group of interfaces with 2 PNIC's (f0 and f1) with 63 allowed VF's are SRIOV ports.
