@@ -4,21 +4,21 @@ sae-site SANJOSE {
                 type            end-to-end;
                 consumer-end-point CONSUMER20 {
                         connectivity FACING_CONSUMER_SAPD {
-                                ip 20.20.20.20 {
-                                        vnf-profile P_CSR1;
+                                ip X.X.X.X {
+                                        vnf-profile P_CSR_C1;
                                 }
-                                ip 20.20.20.21 {
-                                        vnf-profile P_CSR2;
+                                ip X.X.X.X {
+                                        vnf-profile P_CSR_C2;
                                 }
                         }
                 }
                 provider-end-point PROVIDER200 {
                         connectivity FACING_PROVIDER_SAPD {
-                                ip 200.200.200.200 {
-                                        vnf-profile P_CSR3;
+                                ip X.X.X.X {
+                                        vnf-profile P_CSR_P1;
                                 }
-                                ip 200.200.200.201 {
-                                        vnf-profile P_CSR4;
+                                ip X.X.X.X {
+                                        vnf-profile P_CSR_P2;
                                 }
                         }
                 }
