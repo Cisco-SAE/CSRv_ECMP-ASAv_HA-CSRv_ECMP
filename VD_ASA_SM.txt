@@ -1,21 +1,23 @@
 ASA Version 9.9(2)
 !
+hostname ${HOSTNAME}
+!
 interface management0/0
-  no shutdown
+ no shutdown
 !
 interface GigabitEthernet0/0
   no shutdown
 !
-interface GigabitEthernet0/1
+interface TenGigabitEthernet0/0
   no shutdown
 !
-interface GigabitEthernet0/2
+interface TenGigabitEthernet0/1
   no shutdown
 !
 crypto key generate rsa modulus 2048
  terminal width 511
-!
-username ${VFIREWALL_USERNAME} password ${VFIREWALL_PASSWORD} privilege 15
+ !
+ username ${VFIREWALL_USERNAME} password ${VFIREWALL_PASSWORD} privilege 15
 ssh 0.0.0.0 0.0.0.0 ${MGMT_IF}
 !
 aaa authentication ssh console LOCAL
@@ -26,38 +28,34 @@ route ${MGMT_IF} 0.0.0.0 0.0.0.0 $NICID_0_GATEWAY 1
 ssh version 2
 ssh key-exchange group dh-group14-sha1
 !
-failover lan unit secondary
-failover lan interface FAILOVER GigabitEthernet0/0
-failover interface ip FAILOVER $VD_ASA_PM_NICID_1_IP_ADDRESS $VD_ASA_PM_NICID_1_IP_MASK standby $VD_ASA_SM_NICID_1_IP_ADDRESS
-failover
 !
-enable password ${VFIREWALL_ENABLESECRET}
-
+interface Redundant1
+ description LAN/STATE Failover Interface
+ member-interface GigabitEthernet0/0
+!
+failover
+failover lan unit secondary
+failover lan interface failover Redundant1
+failover link failover Redundant1
+failover interface ip failover $VD_ASA_PM_NICID_1_IP_ADDRESS $VD_ASA_PM_NICID_1_IP_MASK standby $VD_ASA_SM_NICID_1_IP_ADDRESS
+!
+enable password ${VFIREWALL_PASSWORD}
+!
+clock timezone PST -8
+!
+dns domain-lookup management
+!
+domain-lookup management
+ dns server-group DefaultDNS
+ name-server $NAME_SERVER1
+ name-server $NAME_SERVER2
+ domain-name $DOMAIN_NAME
+!
 license smart
 feature tier standard
 throughput level 2G
 !
 call-home
-source-interface management
-profile CiscoTAC-1
-  active
-  destination transport-method http
-  no destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
-  destination address http https://sch-alpha.cisco.com/its/service/oddce/services/DDCEService
-profile License
-  active
-  destination transport-method http
-  no destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
-  destination address http https://sch-alpha.cisco.com/its/service/oddce/services/DDCEService
-
-clock timezone PST -8
+  http-proxy $PROXY_SERVER port $PORT
 !
-crypto ca trustpool import url https://www.cisco.com/security/pki/trs/ios_core.p7b
-!
-ip http client source-interface GigabitEthernet1
-service internal
-service call-home
-license smart enable
-ip domain lookup
-debug menu license 25 development
 license smart register idtoken $LICENSE_TOKEN force
